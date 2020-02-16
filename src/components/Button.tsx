@@ -18,13 +18,13 @@ interface IProps {
   enable: boolean;
 }
 
-interface Styles {
+interface IStyles {
   button: ViewStyle;
   icon: ImageStyle;
   label: TextStyle;
 }
 
-const styles = StyleSheet.create<Styles>({
+const styles = StyleSheet.create<IStyles>({
   button: {
     flexDirection: 'row',
     backgroundColor: '#336699',

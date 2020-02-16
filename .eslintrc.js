@@ -1,3 +1,8 @@
+// "off" or 0 - 关闭规则
+// "warn" or 1 - 将规则视为一个警告（ 不会影响退出码）
+// "error" or 2 - 将规则视为一个错误(退出码为1)
+// 完整的规则列表：https://cn.eslint.org/docs/rules/
+
 module.exports = {
   root: true,
   env: {
@@ -12,14 +17,6 @@ module.exports = {
       version: 'detect',
     },
   },
-  extends: [
-    //使用推荐的React代码检测规范
-    'plugin:react/recommended',
-    'plugin:@typescript-eslint/recommended',
-    'prettier/@typescript-eslint',
-    'plugin:prettier/recommended',
-  ],
-  globals: {},
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2019,
@@ -28,6 +25,17 @@ module.exports = {
       jsx: true,
     },
   },
-  plugins: ['@typescript-eslint'],
-  rules: {},
+  extends: [
+    //使用推荐的React代码检测规范
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'prettier/@typescript-eslint',
+    'plugin:prettier/recommended',
+  ],
+  plugins: ['prettier', '@typescript-eslint'],
+  globals: {},
+  rules: {
+    'react/prop-types': [0],
+    '@typescript-eslint/interface-name-prefix': [2, { prefixWithI: 'always' }],
+  },
 };
