@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar } from 'react-native';
+import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, ViewStyle } from 'react-native';
 
 import {
   Header,
@@ -16,6 +16,9 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+
+// import { Button } from './src/components';
+// import { Button } from 'components';
 
 const App = () => {
   return (
