@@ -32,10 +32,12 @@ module.exports = {
     'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
   ],
-  plugins: ['prettier', '@typescript-eslint'],
+  plugins: ['prettier', '@typescript-eslint', 'react-hooks'],
   globals: {},
   rules: {
     'react/prop-types': [0],
     '@typescript-eslint/interface-name-prefix': [2, { prefixWithI: 'always' }],
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
   },
 };
