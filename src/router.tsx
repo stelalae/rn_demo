@@ -1,14 +1,14 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Button, View, Text } from 'react-native';
-import { createStore, applyMiddleware, combineReducers } from 'redux';
-import { connect } from 'react-redux';
-import {
-  createReduxContainer,
-  createReactNavigationReduxMiddleware,
-  createNavigationReducer,
-} from 'react-navigation-redux-helpers';
+import { Button, View } from 'react-native';
+// import { createStore, applyMiddleware, combineReducers } from 'redux';
+// import { connect } from 'react-redux';
+// import {
+//   createReduxContainer,
+//   createReactNavigationReduxMiddleware,
+//   createNavigationReducer,
+// } from 'react-navigation-redux-helpers';
 
 function HomeScreen(props) {
   const { navigation } = props;

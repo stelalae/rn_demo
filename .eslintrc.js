@@ -36,8 +36,10 @@ module.exports = {
   globals: {},
   rules: {
     'react/prop-types': [0],
+    '@typescript-eslint/no-explicit-any': [0],
+    '@typescript-eslint/explicit-function-return-type': [0],
     '@typescript-eslint/interface-name-prefix': [2, { prefixWithI: 'always' }],
-    'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn',
+    'react-hooks/rules-of-hooks': [2],
+    'react-hooks/exhaustive-deps': [1],
   },
 };

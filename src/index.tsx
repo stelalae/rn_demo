@@ -1,9 +1,10 @@
 import React from 'react';
-import { Text, TextInput } from 'react-native';
+// import { Text, TextInput } from 'react-native';
 import codePush from 'react-native-code-push';
 
 import dva from './utils/dva';
-import Router, { routerMiddleware, routerReducer } from './router';
+import Router from './router';
+// import { routerMiddleware, routerReducer } from './router';
 import appModel from './models/app';
 
 // TextInput.defaultProps = Object.assign({}, TextInput.defaultProps || {}, { allowFontScaling: false });
@@ -16,7 +17,7 @@ const optionsDva = {
   onAction: [],
   // extraReducers: { router: routerReducer },
   // onAction: [routerMiddleware],
-  onError(e: any) {
+  onError(e) {
     e.preventDefault();
     console.error('=== dva onError', e.message);
   },

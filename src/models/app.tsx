@@ -11,7 +11,9 @@ export default {
     },
   },
   effects: {
-    *test({ callback, res = {} }, { put }) {},
+    *test({ res = {} }, {}) {
+      console.log('app test', res);
+    },
   },
   subscriptions: {},
 };
