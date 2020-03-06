@@ -1,22 +1,19 @@
 import React from 'react';
-// import { Text, TextInput } from 'react-native';
 import codePush from 'react-native-code-push';
 
 import dva from './utils/dva';
-import Router from './router';
-// import { routerMiddleware, routerReducer } from './router';
+import Router, { AppNavigator } from './router';
+import Navigator from './utils/navigator';
 import appModel from './models/app';
 
-// TextInput.defaultProps = Object.assign({}, TextInput.defaultProps || {}, { allowFontScaling: false });
-// Text.defaultProps = Object.assign({}, Text.defaultProps || {}, { allowFontScaling: false });
-
+const { routerMiddleware, routerReducer } = Navigator;
 const optionsDva = {
   initialState: {},
   models: [appModel],
-  extraReducers: {},
-  onAction: [],
-  // extraReducers: { router: routerReducer },
-  // onAction: [routerMiddleware],
+  // extraReducers: {},
+  // onAction: [],
+  extraReducers: { router: routerReducer(AppNavigator) },
+  onAction: [routerMiddleware],
   onError(e) {
     e.preventDefault();
     console.error('=== dva onError', e.message);
@@ -28,12 +25,10 @@ const codePushOptions = {
 };
 
 const App = (props: any = {}) => {
-  const optionsNew = Object.assign({}, optionsDva, { initialState: { app: props } });
-  console.log('=== dva props', props, optionsNew);
-  const { user = {}, apiServer = '', notifyName = '' } = props;
+  const optionsNew = Object.assign(optionsDva, { initialState: { app: { ...props, user: { a: 1 } } } });
+  console.log('=== dva props', props);
+  const { notifyName = '' } = props;
   const app = dva(optionsNew);
-  global.HxUserInfo = user;
-  global.apiServer = apiServer;
   global[notifyName] = app._store;
   const Entry = app.start(<Router />);
   const RealApp = codePush(codePushOptions)(Entry);

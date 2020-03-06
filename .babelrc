@@ -1,0 +1,28 @@
+{
+  "env": {
+    "development": {
+      "plugins": []
+    },
+    "production": {
+      // "plugins": ["transform-remove-console"]
+    }
+  },
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["./src"],
+        "extensions": [".tsx", ".json"],
+        "alias": {
+          "utils": "./src/utils"
+        }
+      }
+    ],
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
+    ]
+  ]
+}

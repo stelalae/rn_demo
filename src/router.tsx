@@ -1,14 +1,8 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { Button, View } from 'react-native';
-// import { createStore, applyMiddleware, combineReducers } from 'redux';
-// import { connect } from 'react-redux';
-// import {
-//   createReduxContainer,
-//   createReactNavigationReduxMiddleware,
-//   createNavigationReducer,
-// } from 'react-navigation-redux-helpers';
+import { BackHandler, Button, View, Animated, Easing } from 'react-native';
+import { connect } from 'react-redux';
+
+import Navigator from './utils/navigator';
 
 function HomeScreen(props) {
   const { navigation } = props;
@@ -52,36 +46,76 @@ function SettingsScreen(props) {
   );
 }
 
-const AppNavigator = createStackNavigator();
-function MyStack2() {
-  return (
-    <AppNavigator.Navigator>
-      <AppNavigator.Screen name='Home' component={HomeScreen} />
-      <AppNavigator.Screen name='Notifications' component={NotificationsScreen} />
-      <AppNavigator.Screen name='Profile' component={ProfileScreen} />
-      <AppNavigator.Screen name='Settings' component={SettingsScreen} />
-    </AppNavigator.Navigator>
-  );
-}
+export const AppNavigator = Navigator.createStackNavigator(
+  {
+    Main: { screen: HomeScreen },
+    Profile: { screen: ProfileScreen },
+    Notifications: { screen: NotificationsScreen },
+    Setting: { screen: SettingsScreen },
+  },
+  {
+    headerMode: 'none',
+    mode: 'modal',
+    navigationOptions: {
+      gesturesEnabled: false,
+    },
+    transitionConfig: () => ({
+      transitionSpec: {
+        duration: 300,
+        easing: Easing.out(Easing.poly(4)),
+        timing: Animated.timing,
+      },
+      screenInterpolator: sceneProps => {
+        const { layout, position, scene } = sceneProps;
+        const { index } = scene;
 
-// export const routerReducer = createNavigationReducer(AppNavigator);
+        const height = layout.initHeight;
+        const translateY = position.interpolate({
+          inputRange: [index - 1, index, index + 1],
+          outputRange: [height, 0, 0],
+        });
 
-// export const routerMiddleware = createReactNavigationReduxMiddleware((state: any) => state.router);
+        const opacity = position.interpolate({
+          inputRange: [index - 1, index - 0.99, index],
+          outputRange: [0, 1, 1],
+        });
 
-// const App = createReduxContainer(<MyStack2 />, 'root');
+        return { opacity, transform: [{ translateY }] };
+      },
+    }),
+  },
+);
 
-// const mapStateToProps = state => ({
-//   state: state.nav,
-// });
-// const AppWithNavigationState = connect(mapStateToProps)(App);
+const { App } = Navigator;
+const AppContainer = App(AppNavigator);
 
+@connect(({ app, router }) => ({ app, router }))
 class Root extends React.Component {
+  UNSAFE_componentWillMount() {
+    console.log(this.props);
+    BackHandler.addEventListener('hardwareBackPress', this.backHandle);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.backHandle);
+  }
+
+  backHandle = () => {
+    const currentScreen = Navigator.getActiveRouteName(this.props.router);
+    if (currentScreen === 'Login') {
+      return true;
+    }
+    if (currentScreen !== 'Home') {
+      this.props.dispatch(Navigator.back());
+      return true;
+    }
+    return false;
+  };
+
   render() {
-    return (
-      <NavigationContainer>
-        <MyStack2 />
-      </NavigationContainer>
-    );
+    const { app, dispatch, router } = this.props;
+    if (app.loading) return null;
+    return <AppContainer dispatch={dispatch} state={router} />;
   }
 }
 
