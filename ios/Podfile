@@ -34,6 +34,7 @@ target 'rn_demo' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
+  pod 'DoraemonKit/Core', '~> 3.0.2'#, :configurations => ['Debug'] #必选
 
   use_native_modules!
 end
